@@ -1,4 +1,3 @@
 {
   "mongoURI": "mongodb://localhost:27017/coding_test"
-
 }
