@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-
 // jest.spyOn(mongoose,"connect").mockReturnValue(Promise.resolve(mongoose));
 
 class Mongoose{

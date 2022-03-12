@@ -22,7 +22,7 @@ export async function seedData() {
         const parser =  Parser.TSV;
         const parsedData =parser.parse(data);
         const promises = parsedData.map(async (el) => {
-            let coordinates = []
+            const coordinates = []
             if (el.long && el.lat) {
                 coordinates.push(Number(el.long))
                 coordinates.push(Number(el.lat))
@@ -39,6 +39,12 @@ export async function seedData() {
         return false;
     }
 }
+
+/**
+ * @service suggestion
+ * @description get cities
+ * @function getSuggestions
+ */
 export async function getSuggestions(payload: any) {
     try {
         const q: string = payload.q.toString();

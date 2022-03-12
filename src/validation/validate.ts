@@ -8,8 +8,8 @@ const suggestionSchema = Joi.object().keys({
     sort:Joi.string().valid('distance','name')
 });
 
-const createForm = (req, res, next) => {
-        const { error } = suggestionSchema.validate(req.body);
+const validate = (req, res, next) => {
+        const { error } = suggestionSchema.validate(req.query);
         if (error) {
             return res.status(400).json({
                 status: 400,
@@ -19,4 +19,4 @@ const createForm = (req, res, next) => {
         next();
     };
 
-    export default createForm;
+    export default validate;
