@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-var SchemaTypes = mongoose.Schema.Types;
+
 
 const citySchema = new mongoose.Schema({
 
@@ -11,9 +11,9 @@ const citySchema = new mongoose.Schema({
 
     alt_name: { type: String },
 
-    lat: { type: SchemaTypes.Decimal128 },
+    lat: { type: Number},
 
-    long: { type: SchemaTypes.Decimal128 },
+    long: { type: Number },
 
     feat_class: { type: String },
 
@@ -52,4 +52,5 @@ const citySchema = new mongoose.Schema({
 citySchema.index({ location: '2dsphere' });
 
 const City = mongoose.model('City', citySchema)
-export { City }
+// export { City }
+export default City;

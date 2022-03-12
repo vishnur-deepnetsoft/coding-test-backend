@@ -1,56 +1,83 @@
-import request from "supertest";
-import {City} from '../../../src/models/city'
 
-describe('GET /suggestions', () => {
-        let app;
-    beforeAll(async () => {
-        app= require("../../../src/server");
-    });
-  
-    afterAll(() => {
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import app from '../../../src/server';
+import request from 'supertest';
+import City from '../../../src/models/city';
+
+
+beforeAll(async () => {
+    const mongoServer = await MongoMemoryServer.create();
+    await mongoose.connect(mongoServer.getUri(), { dbName: 'coding_test' });
+    await City.insertMany([
+        {
+            name: "Colonial Park,PA,US",
+            state: 'PA',
+            country: 'US',
+            location: {
+                type: 'Point',
+                coordinates: [-76.80969, 40.30064],
+            },
+        },
+        {
+            name: "Colonie",
+            state: 'NY',
+            country: 'US',
+            location: {
+                type: 'Point',
+                coordinates: [-73.83346, 42.71786],
+            },
+        },
+    ]);
+
+})
+
+describe('/suggestions api test ', () => {
+    test('it should return suggestions', async () => {
+        const response = await request(app).get('/suggestions').query({
+            q: 'lon',
+            latitude: 43.70011,
+            longitude: -79.4163,
+            radius: 500,
+            sort: 'name',
+        })
+            .catch((err) => {
+                throw err;
+            });
+        expect(response.statusCode).toEqual(200)
+        expect(response.body.suggestions).toHaveLength(2);
 
     });
-    
-    it('It should respond with an array of suggestions', async() => {
-        const response = await request(app).get("/suggestions?q=lon&latitude=43.70011&longitude=-79.4163&radius=500&sort=name");
-        jest.spyOn(City, 'aggregate').mockReturnValueOnce([
-            {
-                "_id": "622bb259716afb593c541c14",
-                "name": "Colonial Park,PA,US",
-                "distance": 435.49144565067877,
-                "latitude": 40.30064,
-                "longitude": -76.80969
-            },
-            {
-                "_id": "622bb258716afb593c5419fd",
-                "name": "Colonie,NY,US",
-                "distance": 465.8783001149136,
-                "latitude": 42.71786,
-                "longitude": -73.83346
-            }
-        ] as any);
-      expect(response.body).toEqual({
-        "suggestions": [
-            {
-                "_id": "622bb259716afb593c541c14",
-                "name": "Colonial Park,PA,US",
-                "distance": 435.49144565067877,
-                "latitude": 40.30064,
-                "longitude": -76.80969
-            },
-            {
-                "_id": "622bb258716afb593c5419fd",
-                "name": "Colonie,NY,US",
-                "distance": 465.8783001149136,
-                "latitude": 42.71786,
-                "longitude": -73.83346
-            }
-        ]
+    test('return no matching documents', async () => {
+        const response = await request(app).get('/suggestions').query({
+            q: 'unknown',
+            latitude: 43.70011,
+            longitude: -79.4163,
+            radius: 500,
+            sort: 'name',
+        })
+            .catch((err) => {
+                throw err;
+            });
+        expect(response.statusCode).toEqual(200)
+        expect(response.body.suggestions).toHaveLength(0);
+
     });
-    expect(response.statusCode).toBe(200);
-    });
-  });
-  
+    test('query param q is empty ', async () => {
+        const response = await request(app).get('/suggestions').query({
+            latitude: 43.70011,
+            longitude: -79.4163,
+            radius: 500,
+            sort: 'name',
+        })
+            .catch((err) => {
+                throw err;
+            });
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty('error','"q" is required')
+    })
+});
+
 
 
 

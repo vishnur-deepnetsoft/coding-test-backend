@@ -2,7 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import Parser from 'tsv'
-import { City } from '../models/city'
+import  City  from '../models/city'
 import { PipelineStage } from "mongoose";
 
 
@@ -48,7 +48,10 @@ export async function seedData() {
 export async function getSuggestions(payload: any) {
     try {
         const q: string = payload.q.toString();
-        const sort: string = payload.sort.toString();
+        let sort;
+        if(payload.sort){
+            sort = payload.sort.toString();
+        }
         const radius = payload.radius;
         let distance=0;
         if (radius) {
@@ -60,13 +63,7 @@ export async function getSuggestions(payload: any) {
             const latitude = Number(payload.latitude)
             query= getMatchQuery(q,longitude,latitude,distance,sort)
         } else {
-            query = [
-                {
-                    $match: {
-                        name: new RegExp(q, "i"),
-                    }
-                }
-            ];
+            query= getMatchQueryWithNoLatAndLong(q,sort)
         }
         const results = await City.aggregate(query)
         return results;
@@ -75,6 +72,12 @@ export async function getSuggestions(payload: any) {
         return [];
     }
 }
+
+/**
+ * @service suggestion
+ * @description Return aggregation query 
+ * @function getMatchQuery
+ */
 
 export function getMatchQuery(q: string, longitude: number, latitude: number, radius: number, sort: string):Array<PipelineStage> {
     return [
@@ -116,4 +119,50 @@ export function getMatchQuery(q: string, longitude: number, latitude: number, ra
         }
 
     ]
+}
+
+/**
+ * @service suggestion
+ * @description Return aggregation query with params only q and sort
+ * @function getMatchQueryWithNoLatAndLong
+ */
+
+export function getMatchQueryWithNoLatAndLong(q: string,sort: string):Array<PipelineStage> {
+    return [
+        {
+            $addFields: { "latitude": { $toDouble: "$lat" } }
+        },
+        {
+            $addFields: { "longitude": { $toDouble: "$long" } }
+        }, {
+            $addFields: {
+                name: {
+                    $concat: ["$name", ",", "$admin1", ",", "$country"]
+                },
+            }
+        },
+        {
+            $addFields: {
+                name: {
+                    $concat: ["$name", ",", "$admin1", ",", "$country"]
+                },
+            }
+        },
+        {
+            $match: {
+                name: new RegExp(q, "i"),
+            }
+        },
+        {
+            $project: {
+                name: 1,
+                latitude: 1,
+                longitude: 1,
+                distance: 1
+            }
+        },
+        {
+            $sort: { [sort]: 1 }
+        }
+    ];
 }
