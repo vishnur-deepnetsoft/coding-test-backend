@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1647097575739" clover="3.2.0">
-  <project timestamp="1647097575739" name="All files">
+<coverage generated="1647105201613" clover="3.2.0">
+  <project timestamp="1647105201613" name="All files">
     <metrics statements="89" coveredstatements="55" conditionals="13" coveredconditionals="6" methods="11" coveredmethods="5" elements="113" coveredelements="66" complexity="0" loc="89" ncloc="89" packages="5" files="6" classes="6"/>
     <package name="src">
       <metrics statements="19" coveredstatements="9" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
@@ -10,24 +10,24 @@
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
-        <line num="11" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="9" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="10" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
       </file>
       <file name="server.ts" path="C:\Work\coding test\node-typescript-boilerplate\src\server.ts">
         <metrics statements="10" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.models">
@@ -35,27 +35,27 @@
       <file name="city.ts" path="C:\Work\coding test\node-typescript-boilerplate\src\models\city.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
         <line num="52" count="1" type="stmt"/>
         <line num="54" count="1" type="stmt"/>
-        <line num="56" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.routes.api">
       <metrics statements="12" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="suggestions.ts" path="C:\Work\coding test\node-typescript-boilerplate\src\routes\api\suggestions.ts">
         <metrics statements="12" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
         <line num="16" count="2" type="stmt"/>
         <line num="17" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="19" count="2" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
       </file>
     </package>
